@@ -1,13 +1,18 @@
 package com.educandoweb.course.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "tb_user") // usamos essa anotation para padronizar os nomes das tabelas
 public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
@@ -18,6 +23,10 @@ public class User implements Serializable{
 	private String email;
 	private String phone;
 	private String password; 
+	
+	
+	@OneToMany(mappedBy = "client") // Esse atributo abaixo esta mapeado pelo atributo client na classe Order)
+	private List<Order> orders = new ArrayList<>(); //Representação de um 1 usuário tem varios orders(1 para N)
 	
 	public User(){
 		
@@ -43,6 +52,8 @@ public class User implements Serializable{
 	public String getName() {
 		return name;
 	}
+	
+	
 
 	public void setName(String name) {
 		this.name = name;
@@ -72,6 +83,11 @@ public class User implements Serializable{
 		this.password = password;
 	}
 
+	public List<Order> getOrders() {
+		return orders;
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -96,6 +112,7 @@ public class User implements Serializable{
 			return false;
 		return true;
 	}
+
 	
 	
 
