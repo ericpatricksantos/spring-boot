@@ -20,12 +20,13 @@ public class UserResource {
 	private UserService service;
 	
 	@GetMapping
+	//EndPoint para buscar todas os Users
 	public ResponseEntity<List<User>> findAll(){
 		List<User> list = service.findAll();
 		
 		return ResponseEntity.ok().body(list);
 	}
-	
+	//EndPoint para buscar por id
 	@GetMapping(value = "/{id}") // aceita um id dentro da url
 	public ResponseEntity<User>  findById(@PathVariable Long id) {
 		User obj =  service.findById(id);
