@@ -2,6 +2,8 @@ package com.educandoweb.course.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.educandoweb.course.entities.enums.OrderStatus;
@@ -30,12 +33,20 @@ public class Order implements Serializable {
 	
 	private Integer orderStatus;
 
+	//Associações
+	
 	// Cada order tem um cliente
 	@ManyToOne // Muitos(Order) para um(usuarios) .Transforma em uma chave estrangeira no banco
 				// de dados
 	@JoinColumn(name = "client_id")
 	private User client;
+	
+	@OneToMany(mappedBy = "id.order")
+	private Set<OrderItem> items = new HashSet<>();
+	
 
+	//Termina associações
+	
 	public Order() {
 
 	}
@@ -80,6 +91,10 @@ public class Order implements Serializable {
 		this.moment = moment;
 		setOrderStatus(orderStatus);;
 		this.client = client;
+	}
+	
+	public Set<OrderItem> getItems(){
+		return items;	
 	}
 
 	@Override

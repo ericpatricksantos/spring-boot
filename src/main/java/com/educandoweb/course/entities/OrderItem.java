@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.educandoweb.course.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_order_item")
@@ -14,7 +15,7 @@ public class OrderItem  implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@EmbeddedId
-	private OrderItemPK id;
+	private OrderItemPK id = new OrderItemPK();
 	
 	private Integer quantity;
 	private Double price;
@@ -31,6 +32,10 @@ public class OrderItem  implements Serializable{
 		this.price = price;
 	}
 	
+	// essa classe OrdemItem nao tem o atributo direto. Na verdade, ele tem o id e o id que faz associação
+	// com o order. So que na plataforma java enterprise o que vale é o metodo get. Ou seja, tem que colocar um
+	// @JsonIgnore no getOrder()
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
