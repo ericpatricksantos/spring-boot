@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "tb_user") // usamos essa anotation para padronizar os nomes das tabelas
 public class User implements Serializable{
@@ -24,7 +26,8 @@ public class User implements Serializable{
 	private String phone;
 	private String password; 
 	
-	
+	@JsonIgnore // Resolve o problema de associação de mão dupla(Dentro do usuario tem uma lista de pedidos e dentro de pedidos tem um usuario, cria um loop) 
+	// Para resolver coloca a anotation em uma das classes usuario ou pedidos
 	@OneToMany(mappedBy = "client") // Esse atributo abaixo esta mapeado pelo atributo client na classe Order)
 	private List<Order> orders = new ArrayList<>(); //Representação de um 1 usuário tem varios orders(1 para N)
 	

@@ -11,24 +11,30 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "tb_order") // usamos essa anotation, porque estava ocorrendo conflito com o sql usando o nome da tabela order. E para manter o padrao no nome das tabelas mudei os outros nomes
-public class Order  implements Serializable{
+@Table(name = "tb_order") // usamos essa anotation, porque estava ocorrendo conflito com o sql usando o
+							// nome da tabela order. E para manter o padrao no nome das tabelas mudei os
+							// outros nomes
+public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment; // momento que o pedido foi registrado
-	
+
 	// Cada order tem um cliente
-	@ManyToOne//Muitos(Order) para um(usuarios) .Transforma em uma chave estrangeira no banco de dados
+	@ManyToOne // Muitos(Order) para um(usuarios) .Transforma em uma chave estrangeira no banco
+				// de dados
 	@JoinColumn(name = "client_id")
 	private User client;
-	
+
 	public Order() {
-		
+
 	}
 
 	public Long getId() {
@@ -62,7 +68,6 @@ public class Order  implements Serializable{
 		this.client = client;
 	}
 
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -87,6 +92,5 @@ public class Order  implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
+
 }
