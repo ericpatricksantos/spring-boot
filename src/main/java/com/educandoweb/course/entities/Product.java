@@ -11,8 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //Serializable
 @Entity
@@ -39,6 +41,9 @@ public class Product implements Serializable {
 	private Set<Category> categories = new HashSet<>();
 	// Instanciamos para garantir que a coleção nao comece valendo nula. Começa
 	// vazia, porém instanciada.
+	
+	@OneToMany(mappedBy = "id.product")
+	private Set<OrderItem> items = new HashSet<>();
 
 	// Constructors
 
@@ -99,6 +104,20 @@ public class Product implements Serializable {
 
 	public Set<Category> getCategories() {
 		return categories;
+	}
+	
+	@JsonIgnore // Para nao acontecer o loop infinito
+	//Retorna os pedidos(Order) relacionados a esse produto
+	public Set<Order> getOrders(){
+		Set<Order> set = new HashSet<>();
+		
+		// Percorrer cada objeto do tipo OrderItem. Para cada objeto OrderItem x contido na minha lista de items(declarada no inicio dessa classe) 
+		for(OrderItem x : items) {
+			set.add(x.getOrder());
+		}
+		
+		return set;
+		
 	}
 
 	// Hashcode e equals
