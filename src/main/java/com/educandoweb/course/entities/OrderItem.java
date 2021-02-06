@@ -68,6 +68,12 @@ public class OrderItem  implements Serializable{
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+	
+	// detalhe: Na plataforma java enterprise o que vale é o get, ou seja, para aparecer 
+	// no Json tem que renomear a função subTotal para getSubTotal. 
+	public Double getSubTotal() {
+		return price * quantity;
+	}
 
 	@Override
 	public int hashCode() {

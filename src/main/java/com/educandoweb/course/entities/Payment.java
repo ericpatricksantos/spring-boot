@@ -11,6 +11,8 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "tb_payment") // usamos essa anotation para padronizar os nomes das tabelas
@@ -30,6 +32,7 @@ public class Payment implements Serializable{
 	// 1 pagamento tem 1 pedido(Order)
 	@OneToOne
 	@MapsId // Coloca isso na classe dependente(Payment)
+	@JsonIgnore
 	private Order order;
 	
 	//Contructors
